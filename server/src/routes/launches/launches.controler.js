@@ -1,9 +1,9 @@
 const {
   getAllLaunches,
   addNewLaunches,
-  abortLaunch,
   existsLaunchWithId,
   getLaunchesWithId,
+  abortLaunchById,
 } = require("../../models/launches.models");
 const launchesRouter = require("./launches.router");
 
@@ -51,7 +51,7 @@ function httpAbortLaunch(req, res) {
 
   try {
     const launchToAbort = getLaunchesWithId(flightNumber);
-    abortLaunch(flightNumber);
+    abortLaunchById(flightNumber);
     res.status(200).json({
       message: "Mission Aborted",
       mission: launchToAbort,

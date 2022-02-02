@@ -47,14 +47,18 @@ function addNewLaunches(launch) {
   }
 }
 
-function abortLaunch(flightNumber) {
-  launches.delete(flightNumber);
+function abortLaunchById(flightNumber) {
+  const aborted = launches.get(flightNumber);
+  aborted.upcoming = false;
+  aborted.success = false;
+
+  return aborted;
 }
 
 module.exports = {
   getAllLaunches,
   addNewLaunches,
-  abortLaunch,
+  abortLaunchById,
   existsLaunchWithId,
   getLaunchesWithId,
 };
