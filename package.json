@@ -9,7 +9,8 @@
     "install": "npm run install-server && npm run install-client",
     "server": "npm run watch --prefix server",
     "client": "npm start --prefix client",
-    "deploy": "npm run build --prefix client && npm run server",
+    "deploy": "npm run build --prefix client && npm run server --prefix server",
+    "deploy-cluster": "npm run build --prefix client && npm run cluster --prefix server",
     "watch": "npm run server & npm run client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
