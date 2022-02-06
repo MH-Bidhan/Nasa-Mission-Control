@@ -1,17 +1,17 @@
 const {
   getAllLaunches,
   addNewLaunches,
-  existsLaunchWithId,
-  getLaunchesWithId,
-  abortLaunchById,
+  existsLaunchWithFlightNumber,
+  getLaunchesWithFlightNumber,
+  abortLaunchByFlightNumber,
 } = require("../../models/launches.models");
 const launchesRouter = require("./launches.router");
 
-function httpGetAllLaunches(req, res) {
-  return res.status(200).json(getAllLaunches());
+async function httpGetAllLaunches(req, res) {
+  return res.status(200).json(await getAllLaunches());
 }
 
-function httpAddNewLaunch(req, res) {
+async function httpAddNewLaunch(req, res) {
   const launch = req.body;
 
   const { mission, target, launchDate, rocket } = launch;
@@ -33,25 +33,27 @@ function httpAddNewLaunch(req, res) {
   }
 
   try {
-    addNewLaunches(launch);
+    await addNewLaunches(launch);
     return res.status(201).json(launch);
   } catch (e) {
     return res.send(e.message);
   }
 }
 
-function httpAbortLaunch(req, res) {
+async function httpAbortLaunch(req, res) {
   const flightNumber = Number(req.params.flightNumber);
 
-  if (!existsLaunchWithId(flightNumber)) {
+  const existsLaunch = await existsLaunchWithFlightNumber(flightNumber);
+
+  if (!existsLaunch) {
     res.status(400).json({
       message: "No Launch Found With The Given ID",
     });
   }
 
   try {
-    const launchToAbort = getLaunchesWithId(flightNumber);
-    abortLaunchById(flightNumber);
+    const launchToAbort = await getLaunchesWithFlightNumber(flightNumber);
+    abortLaunchByFlightNumber(flightNumber);
     res.status(200).json({
       message: "Mission Aborted",
       mission: launchToAbort,

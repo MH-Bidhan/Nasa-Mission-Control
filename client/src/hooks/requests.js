@@ -12,10 +12,9 @@ async function httpGetPlanets() {
 async function httpGetLaunches() {
   try {
     const response = await fetch(`${apiEndpoint}/launches`);
-    console.log(response);
     const fetchedLaunches = await response.json();
     return fetchedLaunches.sort((a, b) => {
-      return a.flightNumber - b.flightNumber;
+      return b.flightNumber - a.flightNumber;
     });
   } catch (e) {
     console.log(e.message);
