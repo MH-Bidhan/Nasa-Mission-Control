@@ -80,6 +80,7 @@ async function populateLaunchData() {
             upsert: true,
           }
         );
+        console.log(data.mission);
       }
     } catch (e) {
       console.error(e.message);
@@ -105,8 +106,12 @@ async function existsLaunchWithFlightNumber(flightNumber) {
   return await launches.findOne({ flightNumber }, { _id: 0, __v: 0 });
 }
 
-async function getAllLaunches() {
-  return await launches.find({}, { _id: 0, __v: 0 });
+async function getAllLaunches(skip, limit) {
+  return await launches
+    .find({}, { _id: 0, __v: 0 })
+    .sort({ flightNumber: 1 })
+    .skip(skip)
+    .limit(limit);
 }
 
 function getLaunchesWithFlightNumber(flightNumber) {
