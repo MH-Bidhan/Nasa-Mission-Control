@@ -1,9 +1,8 @@
 const http = require("http");
 
-const mongoose = require("mongoose");
-
-const { loadPlanetData } = require("./models/planets.model");
-const { MONGO_KEY } = require("../config");
+const { loadPlanetData } = require("./models/planets/planets.model");
+const { loadLaunchData } = require("./models/launches/launches.models");
+const { connectToDatabase } = require("./services/mongo.db");
 
 const app = require("./app");
 
@@ -11,18 +10,11 @@ const PORT = process.env.PORT || 9000;
 
 const server = http.createServer(app);
 
-mongoose.connection
-  .on("open", () => {
-    console.log("Conneted TO The Database...");
-  })
-  .on("error", (e) => console.error(e));
-
 async function startServer() {
-  await mongoose.connect(MONGO_KEY, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await connectToDatabase();
   await loadPlanetData();
+  await loadLaunchData();
+
   server.listen(PORT, () =>
     console.log(`Listening for requests on ${PORT}...`)
   );

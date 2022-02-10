@@ -4,8 +4,7 @@ const {
   existsLaunchWithFlightNumber,
   getLaunchesWithFlightNumber,
   abortLaunchByFlightNumber,
-} = require("../../models/launches.models");
-const launchesRouter = require("./launches.router");
+} = require("../../models/launches/launches.models");
 
 async function httpGetAllLaunches(req, res) {
   return res.status(200).json(await getAllLaunches());

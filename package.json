@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/MH-Bidhan/Nasa-Mission-Control#readme",
   "dependencies": {
+    "axios": "^0.25.0",
     "morgan": "^1.10.0"
   }
 }
